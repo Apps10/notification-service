@@ -1,0 +1,17 @@
+services:
+  notifyx-app:
+    build: .
+    container_name: notifyx-app
+    working_dir: /app
+    command: ["yarn" ,"start:dev"]
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      MAIL_HOST: ${MAIL_HOST}
+      MAIL_PORT: ${MAIL_PORT}
+      MAIL_USER: ${MAIL_USER}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      FIREBASE_CREDENTIALS: ${FIREBASE_CREDENTIALS}
+    volumes:
+      - ./src:/app/src

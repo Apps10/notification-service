@@ -16,7 +16,7 @@ NotifyX es una plataforma de notificaciones desarrollada con **NestJS** que perm
 - **Email (SMTP)**: Notificaciones enviadas por correo electrónico.
 - **Push Notifications (FCM)**: Notificaciones enviadas a travez de firebase cloud push.
 
-## 🚀 Cómo correr el proyecto
+## 🚀 Cómo correr el proyecto en local
 
 1. Clonar el repositorio:
 
@@ -28,7 +28,7 @@ cd notifyx
 2. Instalar dependencias:
 
 ```bash
-npm install
+yarn install
 ```
 
 3. Configurar variables de entorno en `.env`:
@@ -58,7 +58,24 @@ FIREBASE_CREDENTIALS ='{"type": "",
 4. Ejecutar el servidor NestJS:
 
 ```bash
-npm run start:dev
+yarn start:dev
+```
+
+
+
+## 🐋 Cómo correr el proyecto en docker
+
+1. Clonar el repositorio:
+
+```bash
+git clone https://github.com/tu_usuario/notifyx.git
+cd notifyx
+```
+
+2. ejecutar el comando:
+
+```bash
+docker compose up -d
 ```
 
 
@@ -97,7 +114,6 @@ tsx ./src/scripts/socketClient.ts
 ```json
 {
   "type": "socket",
-  "recipient": " ",
   "message": "mensaje de bienvenida",
 }
 ```
