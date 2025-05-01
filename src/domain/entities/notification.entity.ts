@@ -1,7 +1,8 @@
-export type NotificationType = 'email' | 'push'
+export type NotificationType = 'email' | 'push' | 'socket'
 export enum NotificationTypeEnum {
   EMAIL = 'email',
   PUSH = 'push',
+  SOCKET = 'socket',
 }
 
 export class Notification {
@@ -22,8 +23,12 @@ export class Notification {
     return this.type === 'push'
   }
 
+  isSocket() {
+    return this.type === 'socket'
+  }
+
   private validate(): void {
-    if (!this.type || !['email', 'push'].includes(this.type)) {
+    if (!this.type || !['email', 'push', 'socket'].includes(this.type)) {
       throw new Error('Invalid notification type')
     }
     if (!this.recipient) {
