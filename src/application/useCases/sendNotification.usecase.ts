@@ -2,10 +2,11 @@ import {
   Notification,
   NotificationType,
 } from 'src/domain/entities/notification.entity'
-import { NotificationPort } from 'src/domain/ports/notification.port'
-
+import { NotificationFactory } from 'src/domain/factories/notification.factory'
 export class SendNotificationUseCase {
-  constructor(private readonly notificationPort: NotificationPort) {}
+  constructor(
+    private readonly notificationFactoryAdapter: NotificationFactory,
+  ) {}
 
   async execute(
     type: NotificationType,
@@ -14,6 +15,7 @@ export class SendNotificationUseCase {
     subject?: string,
   ) {
     const notification = new Notification(type, recipient, message, subject)
-    await this.notificationPort.send(notification)
+    const adapter = this.notificationFactoryAdapter.getAdapter(type)
+    await adapter.send(notification)
   }
 }

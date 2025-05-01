@@ -5,6 +5,7 @@ interface IEnv {
   MAIL_PORT: number
   MAIL_USER: string
   MAIL_PASSWORD: string
+  FIREBASE_CREDENTIALS_PATH: string
 }
 
 class Env {
@@ -14,6 +15,7 @@ class Env {
     MAIL_PORT: zod.number(),
     MAIL_USER: zod.string(),
     MAIL_PASSWORD: zod.string(),
+    FIREBASE_CREDENTIALS_PATH: zod.string(),
   })
 
   private constructor() {}
@@ -33,5 +35,10 @@ class Env {
   }
 }
 
-export const { MAIL_HOST, MAIL_PASSWORD, MAIL_PORT, MAIL_USER }: IEnv =
-  Env.getEnvVars()
+export const {
+  MAIL_HOST,
+  MAIL_PASSWORD,
+  MAIL_PORT,
+  MAIL_USER,
+  FIREBASE_CREDENTIALS_PATH,
+}: IEnv = Env.getEnvVars()

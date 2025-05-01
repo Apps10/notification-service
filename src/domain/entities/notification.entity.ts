@@ -1,4 +1,8 @@
 export type NotificationType = 'email' | 'push'
+export enum NotificationTypeEnum {
+  EMAIL = 'email',
+  PUSH = 'push',
+}
 
 export class Notification {
   constructor(
