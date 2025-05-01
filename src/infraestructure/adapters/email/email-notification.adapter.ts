@@ -1,4 +1,4 @@
-import nodemailer from 'nodemailer'
+import * as nodemailer from 'nodemailer'
 import { NotificationPort } from 'src/domain/ports/notification.port'
 import {
   MAIL_HOST,
@@ -13,14 +13,14 @@ export class EmailNotificationAdapter implements NotificationPort {
     host: MAIL_HOST,
     port: MAIL_PORT,
     secure: false,
-    auth: {
-      user: MAIL_USER,
-      pass: MAIL_PASSWORD,
-    },
+    // auth: {
+    //   user: MAIL_USER,
+    //   pass: MAIL_PASSWORD,
+    // },
   })
 
   async send(notification: Notification): Promise<void> {
-    if (notification.isEmail()) {
+    if (!notification.isEmail()) {
       throw new Error('This adapter only support email notification')
     }
 

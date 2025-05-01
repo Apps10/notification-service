@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common'
 import { SendNotificationUseCase } from 'src/application/useCases/sendNotification.usecase'
 import { NotificationFactoryImp } from './factories/notificationImp.factory'
-import { NotificationFactory } from 'src/domain/factories/notification.factory'
 import { EmailNotificationAdapter } from './adapters/email/email-notification.adapter'
 import { FirebaseNotificationAdapter } from './adapters/push/firebase-notification.adapter'
 import { NotificationController } from './controller/notification.controller'
@@ -11,13 +10,18 @@ import { NotificationController } from './controller/notification.controller'
   providers: [
     EmailNotificationAdapter,
     FirebaseNotificationAdapter,
+    NotificationFactoryImp,
     {
       provide: SendNotificationUseCase,
-      useFactory: (notificationAdapterFactory: NotificationFactory) =>
-        new SendNotificationUseCase(notificationAdapterFactory),
-      inject: [NotificationFactoryImp],
+      useFactory: (
+        emailAdapter: EmailNotificationAdapter,
+        pushAdapter: FirebaseNotificationAdapter,
+      ) =>
+        new SendNotificationUseCase(
+          new NotificationFactoryImp(emailAdapter, pushAdapter),
+        ),
+      inject: [EmailNotificationAdapter, FirebaseNotificationAdapter],
     },
   ],
-  exports: [NotificationController],
 })
 export class NotificationModule {}

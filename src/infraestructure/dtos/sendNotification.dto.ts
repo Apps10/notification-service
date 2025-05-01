@@ -9,9 +9,6 @@ export class SendNotificationDto {
   type: NotificationType
 
   @IsString()
-  @IsEnum(['email', 'FCM Token'], {
-    message: 'invalid recipent, only support "email" and "FCM Token"',
-  })
   @IsNotEmpty()
   recipient: string //email o FCM token
 
