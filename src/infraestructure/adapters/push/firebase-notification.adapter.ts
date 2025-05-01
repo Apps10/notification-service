@@ -6,7 +6,7 @@ import { FIREBASE_CREDENTIALS } from '../../../shared/env/envs'
 export class FirebaseNotificationAdapter implements NotificationPort {
   constructor() {
     if (!app.apps.length) {
-      const firebaseCredentials = JSON.parse(FIREBASE_CREDENTIALS)
+      const firebaseCredentials = JSON.parse(FIREBASE_CREDENTIALS) as string
 
       app.initializeApp({
         credential: app.credential.cert(firebaseCredentials),
@@ -20,7 +20,7 @@ export class FirebaseNotificationAdapter implements NotificationPort {
     }
 
     const message: app.messaging.Message = {
-      token: notification.recipient,
+      token: notification.recipient as string,
       notification: {
         title: 'NotifyX',
         body: notification.message,

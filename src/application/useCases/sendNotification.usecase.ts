@@ -14,7 +14,7 @@ export class SendNotificationUseCase {
     message: string,
     subject?: string,
   ) {
-    const notification = new Notification(type, recipient, message, subject)
+    const notification = new Notification(type, message, recipient, subject)
     const adapter = this.notificationFactoryAdapter.getAdapter(type)
     await adapter.send(notification)
   }

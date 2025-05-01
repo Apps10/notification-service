@@ -8,8 +8,8 @@ export enum NotificationTypeEnum {
 export class Notification {
   constructor(
     public readonly type: NotificationType,
-    public readonly recipient: string, //email o FCM token
     public readonly message: string,
+    public readonly recipient?: string, //email o FCM token
     public readonly subject?: string, //solo para email
   ) {
     this.validate()
@@ -31,7 +31,7 @@ export class Notification {
     if (!this.type || !['email', 'push', 'socket'].includes(this.type)) {
       throw new Error('Invalid notification type')
     }
-    if (!this.recipient) {
+    if ((this.isEmail() || this.isPush()) && !this.recipient) {
       throw new Error('Recipient is required')
     }
     if (!this.message) {

@@ -1,98 +1,180 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# NotifyX - Sistema de Notificaciones
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+NotifyX es una plataforma de notificaciones desarrollada con **NestJS** que permite el envío de mensajes a través de distintos canales como **WebSockets**, **Email (SMTP con Nodemailer)** y anteriormente **Firebase Cloud Messaging (FCM)**.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🧰 Tecnologías Utilizadas
 
-## Description
+- **NestJS**: Framework backend basado en Node.js.
+- **Socket.IO**: Comunicación en tiempo real con clientes mediante WebSockets.
+- **Nodemailer**: Envío de correos electrónicos.
+- **TypeScript**: Lenguaje de desarrollo principal.
+- **Arquitectura hexagonal**: Separación de lógica de negocio y puertos/adaptadores.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 🔌 Canales de notificación implementados
 
-## Project setup
+- **WebSocket**: Envío de mensajes en tiempo real a clientes conectados.
+- **Email (SMTP)**: Notificaciones enviadas por correo electrónico.
+- **Push Notifications (FCM)**: Notificaciones enviadas a travez de firebase cloud push.
+
+## 🚀 Cómo correr el proyecto
+
+1. Clonar el repositorio:
 
 ```bash
-$ yarn install
+git clone https://github.com/tu_usuario/notifyx.git
+cd notifyx
 ```
 
-## Compile and run the project
+2. Instalar dependencias:
 
 ```bash
-# development
-$ yarn run start
-
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
+npm install
 ```
 
-## Run tests
+3. Configurar variables de entorno en `.env`:
+
+```env
+MAIL_HOST=smtp.freesmtpservers.com
+MAIL_PORT=25
+MAIL_USER=notifyx@gmail.com
+MAIL_PASSWORD=
+FIREBASE_CREDENTIALS= //debe generar desde firebase #https://firebase.google.com/docs/auth/admin/create-custom-tokens?hl=es-419
+//se debe pegar el contenido del archivo json en formato de texto
+//eje: 
+FIREBASE_CREDENTIALS ='{"type": "",
+  "project_id": "",
+  "private_key_id": "",
+  "private_key": "",
+  "client_email": "",
+  "client_id": "",
+  "auth_uri": "",
+  "token_uri": "",
+  "auth_provider_x509_cert_url": "",
+  "client_x509_cert_url": "",
+  "universe_domain": ""
+}'}'
+```
+
+4. Ejecutar el servidor NestJS:
 
 ```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
+npm run start:dev
 ```
 
-## Deployment
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## 📁 Estructura del Proyecto
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+```
+src/
+├── adapters/
+│   ├── email/
+│   └── socket/
+├── controller/
+├── domain/
+│   ├── entities/
+│   └── ports/
+├── gateway/
+├── application/
+│   └── useCases/
+└── notification.module.ts
+```
+
+## 🧪 Probar las distintas notificaciones
+
+### 💻 Cliente WebSocket (Node.js)
+
+Para probar el canal WebSocket:
+
+1. Ejecutamos el cliente
 
 ```bash
-$ yarn install -g @nestjs/mau
-$ mau deploy
+tsx ./src/scripts/socketClient.ts
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+2. Enviamos el payload del tipo socket:
+(POST) http://localhost:3000/notification
 
-## Resources
+```json
+{
+  "type": "socket",
+  "recipient": " ",
+  "message": "mensaje de bienvenida",
+}
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+3. revisa la salida del socketClient
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
 
-## Support
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
-## Stay in touch
+### ✉️ Envio de correo
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Se usa un servidor SMTP gratuito sin necesidad de autenticación.
 
-## License
+Servidor utilizado:
+WPOven SMTP - https://www.wpoven.com/tools/free-smtp-server
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+![alt text](/docs/image.png)
+
+Para probar el envio de correo:
+
+ ### nota: puedes saltar directo al paso 4 si pusiste las credenciales de tu servidor SMTP
+ 
+
+ 1. ingresa a la pagina de WPOVEN
+ 2. en la casilla de email coloca el correo destino que deseas y dale click en Access Inbox
+ ![alt text](/docs/image-1.png)
+ 3. te aparecera esta ventanada con todos los correos que te hayan llegado.
+![alt text](/docs/image-2.png)
+  4. Enviamos el payload del tipo email:
+(POST) http://localhost:3000/notification
+
+```json
+{
+  "type": "email",
+  "recipient": "micorreo@gmail.com",
+  "message": "mensaje de bienvenida",
+  "subject": "Hola mundo"
+}
+```
+  5. revisamos si nos llego en la plataforma
+
+  ![alt text](/docs/image-4.png)
+
+
+
+
+ ### 📲 Cómo probar el envío de notificaciones push (Firebase)
+Obtén las credenciales del tipo Service Account desde la consola de Firebase.
+
+Pega el JSON completo en la variable de entorno FIREBASE_CREDENTIALS como string.
+
+Variable de entorno:
+
+```env
+{
+  FIREBASE_CREDENTIALS='{
+    "type": "service_account",
+    ...
+  }'
+}
+```
+
+Necesitas un FCM token válido para probar. Puedes obtenerlo desde una app móvil (Android/iOS) que use Firebase.
+
+1. Realiza un POST al endpoint de notificación con el token.
+```json
+{
+  "type": "push",
+  "recipient": "token firebase",
+  "message": "mensaje de bienvenida",
+}
+```
+
+2. revisar en tu cliente de firebase si lo recibiste
+
+## ✨ Contribuciones
+
+Este proyecto está en desarrollo y puede ser extendido con nuevos canales de notificación (SMS, Telegram, WhatsApp, etc.).
+
+---
