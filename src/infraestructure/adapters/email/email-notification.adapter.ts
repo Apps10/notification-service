@@ -13,10 +13,10 @@ export class EmailNotificationAdapter implements NotificationPort {
     host: MAIL_HOST,
     port: MAIL_PORT,
     secure: false,
-    // auth: {
-    //   user: MAIL_USER,
-    //   pass: MAIL_PASSWORD,
-    // },
+    auth: {
+      user: MAIL_USER,
+      pass: MAIL_PASSWORD,
+    },
   })
 
   async send(notification: Notification): Promise<void> {
